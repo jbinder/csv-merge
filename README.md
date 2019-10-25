@@ -33,3 +33,11 @@ Example (cfg.csv):
 Run using:
 
     python csv_merge.py --config_file test/data/cfg.csv --result_file  merged.csv
+
+
+Tests
+-----
+
+Run the tests using:
+
+    nosetests

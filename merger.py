@@ -4,8 +4,13 @@ from typing import Tuple, List
 
 import pandas as pd
 
+from reader.csv_reader import CsvReader
+
 
 class Merger:
+
+    def __init__(self):
+        self.reader = {'csv': CsvReader(os.curdir)}
 
     def run(self, config_file: str) -> pd.DataFrame:
         base_dir = os.getcwd()
@@ -30,9 +35,9 @@ class Merger:
         csvs = []
         common_keys = pd.Index([])
         for index, row in cfg.iterrows():
-            file_name = row[0]
+            file_name = os.path.join(dirname(config_file), row[0])
             id_column = row[1]
-            csv = pd.read_csv(os.path.join(base_dir, dirname(config_file), file_name))
+            csv = self.reader[os.path.splitext(file_name)[1][1:]].read(file_name)
             keys = pd.Index(csv.iloc[:, id_column])
             if common_keys.any():
                 common_keys = keys.intersection(common_keys)
