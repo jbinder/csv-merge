@@ -5,12 +5,14 @@ from typing import Tuple, List
 import pandas as pd
 
 from reader.csv_reader import CsvReader
+from reader.xls_reader import XlsReader
 
 
 class Merger:
 
     def __init__(self):
         self.reader = {'csv': CsvReader(os.curdir)}
+        self.reader = {'xlsx': XlsReader(os.curdir)}
 
     def run(self, config_file: str) -> pd.DataFrame:
         base_dir = os.getcwd()
@@ -25,7 +27,7 @@ class Merger:
             id_column = row[1]
             id_column_name = csvs[index].keys()[id_column]
             data_column = row[2]
-            data = csvs[index].query(f"{id_column_name} in @common_keys")
+            data = csvs[index].query(f"`{id_column_name}` in @common_keys")
             data = data.sort_values(by=id_column_name)
             data = pd.Series(data.iloc[:, data_column].values)
             result = pd.concat([result, data], axis=1)

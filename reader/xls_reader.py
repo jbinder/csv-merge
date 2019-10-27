@@ -11,4 +11,4 @@ class XlsReader(Reader):
         self.base_dir = base_dir
 
     def read(self, file_name: str, options: dict = None) -> pd.DataFrame:
-        return pd.read_excel(os.path.join(self.base_dir, file_name), **options)
+        return pd.read_excel(os.path.join(self.base_dir, file_name), **options if options is not None else {})
