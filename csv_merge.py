@@ -8,4 +8,4 @@ if __name__ == "__main__":
     parser.add_argument('--result_file', action="store", default="merged.csv")
     args = parser.parse_args()
     merged = Merger().run(args.config_file)
-    merged.to_csv(args.result_file, header=False, index=False)
+    merged.to_csv(args.result_file, index=False)

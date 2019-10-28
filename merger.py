@@ -19,6 +19,7 @@ class Merger:
         cfg = pd.read_csv(os.path.join(base_dir, config_file))
         common_keys, csvs = self._prepare_csvs(base_dir, cfg, config_file)
         result = self._build_result(cfg, common_keys, csvs)
+        result.columns = pd.concat([pd.Series(['id']), cfg[cfg.columns[0]]])
         return result
 
     def _build_result(self, cfg: pd.DataFrame, common_keys: pd.Index, csvs: [pd.DataFrame]) -> pd.DataFrame:
@@ -31,6 +32,7 @@ class Merger:
             data = data.sort_values(by=id_column_name)
             data = pd.Series(data.iloc[:, data_column].values)
             result = pd.concat([result, data], axis=1)
+        result = result.dropna()
         return result
 
     def _prepare_csvs(self, base_dir: str, cfg: pd.DataFrame, config_file: str) -> Tuple[pd.Index, List[pd.DataFrame]]:
@@ -41,7 +43,11 @@ class Merger:
             id_column = row[1]
             csv = self.reader[os.path.splitext(file_name)[1][1:]].read(file_name)
             keys = pd.Index(csv.iloc[:, id_column])
-            if common_keys.any():
+            id_type = row[3]
+            if id_type == 'datetime':
+                keys = pd.to_datetime(keys, errors='coerce')
+                keys = keys.dropna()
+            if common_keys.shape[0] > 0:
                 common_keys = keys.intersection(common_keys)
             else:
                 common_keys = keys
