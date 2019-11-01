@@ -26,9 +26,13 @@ The configuration is read from a config file and is a CSV file itself, using the
 
 Example (cfg.csv):
 
-    filename,key_column,data_column
-    d1.csv,0,1
-    d2.csv,0,2
+    filename,key_column,data_column,key_type
+    d1.csv,0,1,int
+    d2.csv,0,2,datetime
+
+where:
+
+* key_type: int | str | datetime
 
 Run using:
 

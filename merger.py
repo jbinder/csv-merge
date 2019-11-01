@@ -11,8 +11,8 @@ from reader.xls_reader import XlsReader
 class Merger:
 
     def __init__(self):
-        self.reader = {'csv': CsvReader(os.curdir)}
-        self.reader = {'xlsx': XlsReader(os.curdir)}
+        self.reader = {'csv': CsvReader(os.curdir),
+                       'xlsx': XlsReader(os.curdir)}
 
     def run(self, config_file: str) -> pd.DataFrame:
         base_dir = os.getcwd()
