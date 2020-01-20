@@ -36,8 +36,13 @@ where:
 
 Run using:
 
-    python csv_merge.py --config_file test/data/cfg.csv --result_file  merged.csv
+    python csv_merge.py --config_file test/data/cfg.csv --result_file  merged.csv --num_previous_entries_to_include
 
+Arguments:
+
+* config_file: The configuration file as described above.
+* result file: The merged CSV file.
+* num_previous_entries_to_include: Optional. Allows copying elements from x previous rows to include a history for e.g. time series.
 
 Tests
 -----
